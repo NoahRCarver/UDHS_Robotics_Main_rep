@@ -143,14 +143,14 @@ public class NXTTankOp extends OpMode {
         // }
      
          // Update the current devMode
-         devMode = rightController.getMotorControllerDeviceMode();
-         numOpLoops++;
+        // devMode = rightController.getMotorControllerDeviceMode();
+        // numOpLoops++;
        }
      
        // If the device is in either of these two modes, the op mode is allowed to write to the HW.
-       private boolean allowedToWrite(){
-         return (devMode == DcMotorController.DeviceMode.WRITE_ONLY);
-       }
+       //private boolean allowedToWrite(){
+        // return (devMode == DcMotorController.DeviceMode.WRITE_ONLY);
+       //}
 
     /*
      * Code to run when the op mode is first disabled goes here
