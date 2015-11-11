@@ -79,7 +79,7 @@ public class NXTTankOp extends OpMode {
      
          // The op mode should only use "write" methods (setPower, setChannelMode, etc) while in
          // WRITE_ONLY mode or SWITCHING_TO_WRITE_MODE
-         if (allowedToWrite()) {
+        // if (allowedToWrite()) {
          /*
           * Gamepad 1
           * Controls: tank
@@ -195,4 +195,4 @@ public class NXTTankOp extends OpMode {
         return dScale;
     }
 
-}
+
