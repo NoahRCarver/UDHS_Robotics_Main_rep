@@ -4,6 +4,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -11,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class NXTTankOp extends OpMode {
+public class SquareOp extends OpMode {
 
     DcMotor rightMotor1,rightMotor2;
     DcMotor leftMotor1,leftMotor2;
@@ -22,7 +23,7 @@ public class NXTTankOp extends OpMode {
     /**
      * Puppet Constructor
      */
-    public NXTTankOp() {
+    public SquareOp() {
 
     }
 
