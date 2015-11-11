@@ -34,6 +34,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
+
 /**
  * Register Op Modes
  */
@@ -57,7 +58,7 @@ public class FtcOpModeRegister implements OpModeRegister {
 
     manager.register("NullOp", NullOp.class);
 
-    manager.register("NXTTankOp", NXTTankOP.class);
+    manager.register("NXTTankOp", NXTTankOp.class);
     
     
 
