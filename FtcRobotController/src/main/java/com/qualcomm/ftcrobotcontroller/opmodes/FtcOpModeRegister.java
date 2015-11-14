@@ -57,7 +57,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
 
     manager.register("NullOp", NullOp.class);
-
+    manager.register("tankAuto", TankAutoOp.class);
     manager.register("NXTTankOp", NXTTankOp.class);
     
     
