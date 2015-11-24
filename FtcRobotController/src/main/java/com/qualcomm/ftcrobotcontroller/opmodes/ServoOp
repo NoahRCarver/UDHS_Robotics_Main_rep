@@ -2,9 +2,10 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorController
 import com.qualcomm.robotcore.util.Range;
 
-  public class K9TeleOp extends OpMode {
+  public class ServoOp extends OpMode {
 	
 	/*
 	 * Note: the configuration of the servos is such that
@@ -32,11 +33,16 @@ import com.qualcomm.robotcore.util.Range;
 
 	Servo ButtonPush;
 	Servo DropMen;
+	DcMotor rightMotor1, rightMotor2;
+	DcMotor leftMotor1, leftMotor2;
+	DcMotorController.DeviceMode devMode;
+	DcMotorController leftController, rightController;
+	int numOpLoops = 1;
 
 	/**
 	 * Constructor
 	 */
-	public K9TeleOp() {
+	public ServoOp() {
 
 	}
 
@@ -65,9 +71,14 @@ import com.qualcomm.robotcore.util.Range;
 		 *    "servo_1" controls the DropMen joint of the manipulator.
 		 *    "servo_6" controls the ButtonPush joint of the manipulator.
 		 */
-		motorRight = hardwareMap.dcMotor.get("motor_2");
-		motorLeft = hardwareMap.dcMotor.get("motor_1");
-		motorLeft.setDirection(DcMotor.Direction.REVERSE);
+		
+		leftMotor1 = hardwareMap.dcMotor.get("lmotor1");
+        	leftMotor2 = hardwareMap.dcMotor.get("lmotor2");
+        	rightMotor1 = hardwareMap.dcMotor.get("rmotor1");
+        	rightMotor2 = hardwareMap.dcMotor.get("rmotor2");
+        	
+        	rightController = hardwareMap.dcMotorController.get("rmotors");
+        	leftController = hardwareMap.dcMotorController.get("lmotors");
 		
 		DropMen = hardwareMap.servo.get("servo_1");
 		ButtonPush = hardwareMap.servo.get("servo_6");
@@ -76,6 +87,18 @@ import com.qualcomm.robotcore.util.Range;
 		DropMenPosition = 1.0;
 		ButtonPushPosition = 1.0;
 	}
+	
+	@Override
+	public void init_loop() {
+	
+	devMode = DcMotorController.DeviceMode.WRITE_ONLY;
+	
+	leftMotor1.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        leftMotor2.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        rightMotor1.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        rightMotor2.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        
+        }
 
 	/*
 	 * This method will be called repeatedly in a loop
@@ -114,6 +137,17 @@ import com.qualcomm.robotcore.util.Range;
 		if (gamepad1.right_bumper){
 		  ButtonPushPosition -= ButtonPushDelta;
 		}
+		
+		float left = -gamepad1.left_stick_y;
+		float right = -gamepad1.right_stick_y;
+		
+		left = Range.clip(left, -1, 1);
+		right = Range.clip(right, -1, 1);
+		
+		rightMotor1.setPower(right);
+		rightMotor2.setPower(right);
+		leftMotor1.setPower(left);
+		leftMotor2.setPower(left);
 
 
         // clip the position values so that they never exceed their allowed range.
