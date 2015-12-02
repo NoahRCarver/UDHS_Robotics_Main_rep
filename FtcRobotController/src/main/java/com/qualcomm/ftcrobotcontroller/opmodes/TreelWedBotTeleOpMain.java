@@ -5,15 +5,13 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class NXTTankOp extends OpMode {
+public class TreelWedBotTeleOpMain extends OpMode {
 
     DcMotor FRM, BRM;
     DcMotor FLM, BLM;
     BaseDriveMotorControl driveScheme;
 
-    public NXTTankOp() {
-        
-    }
+    public TreelWedBotTeleOpMain() {}
 
 
     @Override

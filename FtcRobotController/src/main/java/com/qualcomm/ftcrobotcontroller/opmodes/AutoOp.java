@@ -12,45 +12,39 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 public class AutoOp extends LinearOpMode {
     
-    DcMotor rightMotor1, rightMotor2;
-    DcMotor leftMotor1, leftMotor2;
-    /**
-     * Puppet Constructor
-     */
-    public AutoOp() {
+    DcMotor FRM, BRM;
+    DcMotor FLM, BLM;
+    BaseDriveMotorControl driveScheme;
 
-    }
-    
+    public AutoOp() {}
     
     @Override
     public void runOpMode() throws InterruptedException{
-        leftMotor1 = hardwareMap.dcMotor.get("lmotor1");
-        leftMotor2 = hardwareMap.dcMotor.get("lmotor2");
-        rightMotor1 = hardwareMap.dcMotor.get("rmotor1");
-        rightMotor2 = hardwareMap.dcMotor.get("rmotor2");
-        
-        rightMotor1.setDirection(DcMotor.Direction.REVERSE);
-        rightMotor2.setDirection(DcMotor.Direction.REVERSE);
+       /**
+        * Hardware Map:
+        * fr - front right drive motor
+        * fl - front left drive motor
+        * br - back right drive motor
+        * bl - back left drive motor
+        */
+       FRM = hardwareMap.dcMotor.get("fr");
+       BRM = hardwareMap.dcMotor.get("br");
+       FLM = hardwareMap.dcMotor.get("fl");
+       BLM = hardwareMap.dcMotor.get("bl");
+       
+       //init driveScheme
+       driveScheme = new BaseDriveMotorControl(FRM, BRM, FLM, BLM);
         
         waitForStart();
         
         for(int i = 0; i < 4; i++){
-            leftMotor1.setPower(1);
-            leftMotor2.setPower(.5);
-            rightMotor1.getPower(1);
-            rightMotor2.setPower(.5);
+            driveScheme.tankDrive(1, 1);
             sleep(1000);
-            leftMotor1.setPower(-1);
-            leftMotor2.setPower(-.5);
-            rightMotor1.getPower(1);
-            rightMotor2.setPower(.5);
+            driveScheme.tankDrive(1, -1);
             sleep(1000);
         }
         
-        leftMotor1.setPowerFloat();
-        leftMotor2.setPowerFloat();
-        rightMotor1.getPowerFloat();
-        rightMotor2.setPowerFloat();
+        driveScheme.tankDrive(0, 0);
         
     }
     

@@ -49,13 +49,6 @@ public class BaseDriveMotorControl{
         tankDrive (scaleInput(gamepad.left_stick_y, boost), scaleInput(gamepad.right_stick_y, boost));
     }
 
-
-
-
-
-
-
-
     /*
      * This method scales the joystick input so for low joystick values, the 
      * scaled value is less than linear.  This is to make it easier to drive
