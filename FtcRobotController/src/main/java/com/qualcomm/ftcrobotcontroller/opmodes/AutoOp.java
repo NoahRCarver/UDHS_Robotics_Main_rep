@@ -12,20 +12,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 public class AutoOp extends LinearOpMode {
     
-    public static final int driveTime = 1;
-    public static final int turnTime = 1;
-
     DcMotor rightMotor1, rightMotor2;
     DcMotor leftMotor1, leftMotor2;
-    ElapsedTime timer;
-    
-    Enum State {Start, Drive, Turn}
-    State state;
-
     /**
      * Puppet Constructor
      */
-    public NXTTankOp() {
+    public AutoOp() {
 
     }
     
