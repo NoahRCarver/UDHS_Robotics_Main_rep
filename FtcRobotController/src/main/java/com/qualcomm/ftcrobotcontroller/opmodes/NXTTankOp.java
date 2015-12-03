@@ -16,6 +16,8 @@ public class NXTTankOp extends OpMode {
 
     DcMotor rightMotor;
     DcMotor leftMotor;
+    
+    BaseDriveMotorControl = driveScheme;
 
     /**
      * Puppet Constructor
