@@ -7,6 +7,14 @@ import com.qualcomm.robotcore.util.Range;
 
   public class ServoOp extends OpMode {
 	
+	Servo ButtonPush;
+	Servo DropMen;
+	DcMotor rightMotor1, rightMotor2;
+	DcMotor leftMotor1, leftMotor2;
+	DcMotorController.DeviceMode devMode;
+	DcMotorController leftController, rightController;
+	int numOpLoops = 1;
+	
 	/*
 	 * Note: the configuration of the servos is such that
 	 * as the DropMen servo approaches 0, the DropMen position moves up (away from the floor).
@@ -31,13 +39,7 @@ import com.qualcomm.robotcore.util.Range;
 	double ButtonPushDelta = 0.1;
 
 
-	Servo ButtonPush;
-	Servo DropMen;
-	DcMotor rightMotor1, rightMotor2;
-	DcMotor leftMotor1, leftMotor2;
-	DcMotorController.DeviceMode devMode;
-	DcMotorController leftController, rightController;
-	int numOpLoops = 1;
+
 
 	/**
 	 * Constructor
@@ -72,13 +74,13 @@ import com.qualcomm.robotcore.util.Range;
 		 *    "servo_6" controls the ButtonPush joint of the manipulator.
 		 */
 		
-		leftMotor1 = hardwareMap.dcMotor.get("lmotor1");
-        	leftMotor2 = hardwareMap.dcMotor.get("lmotor2");
-        	rightMotor1 = hardwareMap.dcMotor.get("rmotor1");
-        	rightMotor2 = hardwareMap.dcMotor.get("rmotor2");
+		leftMotor1 = hardwareMap.dcMotor.get("leftMotor1");
+        	leftMotor2 = hardwareMap.dcMotor.get("leftMotor2");
+        	rightMotor1 = hardwareMap.dcMotor.get("rightMotor1");
+        	rightMotor2 = hardwareMap.dcMotor.get("rightMotor2");
         	
-        	rightController = hardwareMap.dcMotorController.get("rmotors");
-        	leftController = hardwareMap.dcMotorController.get("lmotors");
+        	rightController = hardwareMap.dcMotorController.get("rightController");
+        	leftController = hardwareMap.dcMotorController.get("leftController");
 		
 		DropMen = hardwareMap.servo.get("servo_1");
 		ButtonPush = hardwareMap.servo.get("servo_6");
