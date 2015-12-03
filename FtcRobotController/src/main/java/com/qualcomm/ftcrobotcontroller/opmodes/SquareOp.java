@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class SquareOp extends OpMode {
 
+
     DcMotor rightMotor1, rightMotor2;
     DcMotor leftMotor1, leftMotor2;
     DcMotorController.DeviceMode devMode;
@@ -46,8 +47,8 @@ public class SquareOp extends OpMode {
         rightMotor1 = hardwareMap.dcMotor.get("rmotor1");
         rightMotor2 = hardwareMap.dcMotor.get("rmotor2");
 
-        rightController = hardwareMap.dcMotorController.get("rmotors");
-        leftController = hardwareMap.dcMotorController.get("lmotors");
+       rightController = hardwareMap.dcMotorController.get("rmotors");
+       leftController = hardwareMap.dcMotorController.get("lmotors");
     }
 
     /*
