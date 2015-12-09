@@ -16,12 +16,17 @@ public class BaseDriveMotorControl{
 
     DcMotor rightMotorf, rightMotorb;
     DcMotor leftMotorf, leftMotorb;
+    boolean encodersEnabled = false;
     private final double frontRatio = 1.00;
+    private final double frontCirc = 0;
+    private final double backCirc = 0;
+    private final int pulsePerRot = 1440;
 
     /**
      * Puppet Constructor
      */
     public BaseDriveMotorControl(DcMotor frontRight, DcMotor backRight, DcMotor frontLeft, DcMotor backLeft) {
+        
         rightMotorf = frontRight;
         rightMotorb = backRight;
         leftMotorf = frontLeft;
@@ -29,15 +34,69 @@ public class BaseDriveMotorControl{
         
         rightMotorf.setDirection(DcMotor.Direction.REVERSE);
         rightMotorb.setDirection(DcMotor.Direction.REVERSE);
-        
-        leftMotorf.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        leftMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        rightMotorf.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        rightMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+       
+    }
+    
+    public void enableEncoders(boolean val){
+        if(val){
+            leftMotorf.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            leftMotorb.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            rightMotorf.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            rightMotorb.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            encodersEnabled = true;
+        }else{
+           leftMotorf.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+           leftMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+           rightMotorf.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+           rightMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+           encodersEnabled = false;
+        }
     }
     
     
+    public void measuredDrive(double Rdist, double Ldist){
+        
+        int frrot = Rdist/frontCirc;
+        int brrot = Rdist/backCirc;
+        int flrot = Ldist/frontCirc;
+        int blrot = Ldist/backcirc;
+        
+        leftMotorf.setTargetPosition(flrot*pulsePerRot);
+        leftMotorb.setTargetPosition(blrot*pulsePerRot);
+        rightMotorf.setTargetPosition(frrot*pulsePerRot);
+        rightMotorb.setTargetPosition(brrot*pulsePerRot);
+        
+        if(!encodersEnabled){
+         enableEncoders(true);   
+        }
+        
+        int rPow = 1, lPow = 1;
+        if(Rdist<0){
+            rPow = -1;
+        }else if(Rdist == o){
+            rPow = 0;
+        }
+        if(Ldist<0){
+            lPow = -1;
+        }else if(Ldist == o){
+            lPow = 0;
+        }
+        
+        leftMotorf.setPower(frontRatio * lPow);
+        leftMotorb.setPower(lPow);
+        rightMotorf.setPower(frontRatio * rPow);
+        rightMotorb.setPower(rPow);
+    }
+    
+    
+    
+    
+    
     public void tankDrive (double leftVal, double rightVal){
+         
+        if(encodersEnabled){
+            enableEncoders(false);
+        }
         leftMotorf.setPower(frontRatio * leftVal);
         leftMotorb.setPower(leftVal);
         rightMotorf.setPower(frontRatio * rightVal);
@@ -55,7 +114,7 @@ public class BaseDriveMotorControl{
      * the robot more precisely at slower speeds.
      */
     private double scaleInput(double dVal, boolean boost)  {
-        int mult = 12;
+        int mult = 6;
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
         if(boost){
