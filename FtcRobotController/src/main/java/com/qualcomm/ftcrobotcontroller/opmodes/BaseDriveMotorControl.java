@@ -23,7 +23,9 @@ public class BaseDriveMotorControl{
     private final int pulsePerRot = 1440;
 
     /**
-     * Puppet Constructor
+     * Constructor:
+     * @params: FrontRight, backRight, frontLeft, backLeft: motors, must be initialized and bound
+     * before this can be constructed
      */
     public BaseDriveMotorControl(DcMotor frontRight, DcMotor backRight, DcMotor frontLeft, DcMotor backLeft) {
         
@@ -37,6 +39,10 @@ public class BaseDriveMotorControl{
        
     }
     
+    /**
+     * if val is true, enables encoders, else disables them
+     * 
+     */
     public void enableEncoders(boolean val){
         if(val){
             leftMotorf.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
@@ -54,6 +60,14 @@ public class BaseDriveMotorControl{
     }
     
     
+    
+    /**
+     * This method does all of the things required to make each side of 
+     * the robot move forward by the given amounts. 
+     * Seriously, It changes the channelMode, It calculates the pulse counts
+     * Everything!
+     * If you understand java and can't use this, you don't deserve to!
+     */
     public void measuredDrive(double Rdist, double Ldist){
         
         int frrot = Rdist/frontCirc;
@@ -89,20 +103,29 @@ public class BaseDriveMotorControl{
     }
     
     
-    
-    
-    
+    /**
+     * This method just sets the power of the Left and right motors
+     * to the provided values
+     * It also scales the power to the front motors.
+     */
     public void tankDrive (double leftVal, double rightVal){
          
         if(encodersEnabled){
             enableEncoders(false);
         }
+        
         leftMotorf.setPower(frontRatio * leftVal);
         leftMotorb.setPower(leftVal);
         rightMotorf.setPower(frontRatio * rightVal);
         rightMotorb.setPower(rightVal);
     }
     
+    /**
+     * This method automatically collects data from the Gamepad and 
+     * scales it for tank drive
+     * To use, just put drivecontroller.tankDrive(gamepad1); into the 
+     * loop function of your tele-op
+     */
     public void tankDrive (Gamepad gamepad){
         boolean boost = gamepad.left_bumper;
         tankDrive (scaleInput(gamepad.left_stick_y, boost), scaleInput(gamepad.right_stick_y, boost));
