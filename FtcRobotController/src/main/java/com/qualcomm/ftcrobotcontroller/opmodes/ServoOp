@@ -157,8 +157,8 @@ import com.qualcomm.robotcore.util.Range;
         ButtonPushPosition = Range.clip(ButtonPushPosition, ButtonPush_MIN_RANGE, ButtonPush_MAX_RANGE);
 
 		// write position values to the DropMen and ButtonPush servo
-		DropMen.setPosition(DropMenPosition);
-		ButtonPush.setPosition(ButtonPushPosition);
+		DropMen.setPosition(1);
+		ButtonPush.setPosition(1);
 
 
 
