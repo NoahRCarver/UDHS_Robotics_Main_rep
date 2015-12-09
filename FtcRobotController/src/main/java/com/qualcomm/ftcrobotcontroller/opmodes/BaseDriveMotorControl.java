@@ -74,6 +74,7 @@ public class BaseDriveMotorControl{
         int brrot = Rdist/backCirc;
         int flrot = Ldist/frontCirc;
         int blrot = Ldist/backcirc;
+        int rPow = .5, lPow = .5;
         
         leftMotorf.setTargetPosition(flrot*pulsePerRot);
         leftMotorb.setTargetPosition(blrot*pulsePerRot);
@@ -83,15 +84,14 @@ public class BaseDriveMotorControl{
         if(!encodersEnabled){
          enableEncoders(true);   
         }
-        
-        int rPow = 1, lPow = 1;
+       
         if(Rdist<0){
-            rPow = -1;
+            rPow = -rPow;
         }else if(Rdist == o){
             rPow = 0;
         }
         if(Ldist<0){
-            lPow = -1;
+            lPow = -lpow;
         }else if(Ldist == o){
             lPow = 0;
         }
