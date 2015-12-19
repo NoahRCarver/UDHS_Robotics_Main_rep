@@ -4,6 +4,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
 
@@ -70,16 +71,16 @@ public class BaseDriveMotorControl{
      */
     public void measuredDrive(double Rdist, double Ldist){
         
-        int frrot = Rdist/frontCirc;
-        int brrot = Rdist/backCirc;
-        int flrot = Ldist/frontCirc;
-        int blrot = Ldist/backcirc;
-        int rPow = .5, lPow = .5;
+        double frrot = Rdist/frontCirc;
+        double brrot = Rdist/backCirc;
+        double flrot = Ldist/frontCirc;
+        double blrot = Ldist/backCirc;
+        double rPow = .5, lPow = .5;
         
-        leftMotorf.setTargetPosition(flrot*pulsePerRot);
-        leftMotorb.setTargetPosition(blrot*pulsePerRot);
-        rightMotorf.setTargetPosition(frrot*pulsePerRot);
-        rightMotorb.setTargetPosition(brrot*pulsePerRot);
+        leftMotorf.setTargetPosition((int)flrot*pulsePerRot);
+        leftMotorb.setTargetPosition((int)blrot*pulsePerRot);
+        rightMotorf.setTargetPosition((int)frrot*pulsePerRot);
+        rightMotorb.setTargetPosition((int)brrot*pulsePerRot);
         
         if(!encodersEnabled){
          enableEncoders(true);   
@@ -87,12 +88,12 @@ public class BaseDriveMotorControl{
        
         if(Rdist<0){
             rPow = -rPow;
-        }else if(Rdist == o){
+        }else if(Rdist == 0){
             rPow = 0;
         }
         if(Ldist<0){
-            lPow = -lpow;
-        }else if(Ldist == o){
+            lPow = -lPow;
+        }else if(Ldist == 0){
             lPow = 0;
         }
         
