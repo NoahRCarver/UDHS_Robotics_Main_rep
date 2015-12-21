@@ -42,7 +42,9 @@ public class TreelWedBotTeleOpMain extends OpMode {
         
         //init driveScheme
         driveScheme = new BaseDriveMotorControl(FRM, BRM, FLM, BLM);
-
+        
+        TDM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        TIM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
 
     }
