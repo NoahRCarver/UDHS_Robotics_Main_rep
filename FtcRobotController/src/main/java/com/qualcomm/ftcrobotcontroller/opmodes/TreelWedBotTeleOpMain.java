@@ -66,7 +66,7 @@ public class TreelWedBotTeleOpMain extends OpMode {
     public void loop() {
         driveScheme.tankDrive(gamepad1);
 
-        if(gamepad2.a){
+        if(gamepad2.dpad_up){
             TIM.setPower(1);
         }else{
             TIM.setPower(0);
@@ -81,27 +81,29 @@ public class TreelWedBotTeleOpMain extends OpMode {
         }
 
         // update the position of the DropMen.
-        if (gamepad2.a = true) {
+        if (gamepad2.a) {
             /* if the #2 button is pushed on gamepad1, increment the position of
                the DropMen servo. */
             RPPosition += RPDelta;
             LPPosition += LPDelta;
-        }
-
-        if (gamepad2.a = false){
+        }else{
             RPPosition -= RPDelta;
             LPPosition -= LPDelta;
         }
 
-        if (gamepad2.b = true) {
+
+        if (gamepad2.b) {
             /* if the 1 button is pushed on gamepad1, increment the position of
                the DropMen servo. */
             CAPosition += CADelta;
         }
-
-        if (gamepad2.b = false){
+        else{
             CAPosition -= CADelta;
         }
+
+        LP.setPosition(LPPosition);
+        RP.setPosition(RPPosition);
+        CA.setPosition(CAPosition);
 
       /*  if (gamepad2.x = true){
             BTNPosition += BTNDelta;
