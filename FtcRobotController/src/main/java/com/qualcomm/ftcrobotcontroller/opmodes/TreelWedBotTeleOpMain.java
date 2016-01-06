@@ -11,13 +11,13 @@ public class TreelWedBotTeleOpMain extends OpMode {
     DcMotor FRM, BRM; //Front Right Motor, Back Right Motor
     DcMotor FLM, BLM; //Front Left Motor, Back Left Motor
     DcMotor TDM, TIM; //Tread Delivery Motor, Tread Intake Motor
-    Servo RP, LP, CA, BTN; // Right Paddle, Left paddle, Climber Arm, Button pusher.
+    Servo RP, LP, CA; //BTN;  Right Paddle, Left paddle, Climber Arm, Button pusher.
 
     // position of the DropMen servo.
-    double RPPosition, LPPosition, CAPosition, BTNPosition;
-
+    double RPClosedPosition = 0.0, LPClosedPosition = 0.0, CAClosedPosition = 0.0;// BTNPosition = 0.0;
+    double RPOpenPosition = 0.5, LPOpenPosition = 0.5, CAOpenPosition = 1.0;
     // amount to change the DropMen servo position.
-    double RPDelta = 0.1, LPDelta = 0.1, CADelta = 0.1, BTNDelta = 0.1;
+   // double RPDelta = 0.1, LPDelta = 0.1, CADelta = 0.1, BTNDelta = 0.1;
 
 
     BaseDriveMotorControl driveScheme;
@@ -53,9 +53,9 @@ public class TreelWedBotTeleOpMain extends OpMode {
         TDM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         TIM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
-
+        RP.setDirection(Servo.Direction.REVERSE);
     }
-    
+
     @Override
     public void start(){}
 
@@ -82,28 +82,24 @@ public class TreelWedBotTeleOpMain extends OpMode {
 
         // update the position of the DropMen.
         if (gamepad2.a) {
-            /* if the #2 button is pushed on gamepad1, increment the position of
-               the DropMen servo. */
-            RPPosition += RPDelta;
-            LPPosition += LPDelta;
+
+            RP.setPosition(RPOpenPosition);
+            LP.setPosition(LPOpenPosition);
         }else{
-            RPPosition -= RPDelta;
-            LPPosition -= LPDelta;
+            RP.setPosition(RPClosedPosition);
+            LP.setPosition(LPClosedPosition);
         }
 
 
         if (gamepad2.b) {
-            /* if the 1 button is pushed on gamepad1, increment the position of
-               the DropMen servo. */
-            CAPosition += CADelta;
+
+            CA.setPosition(CAOpenPosition);
         }
         else{
-            CAPosition -= CADelta;
+            CA.setPosition(CAClosedPosition);
         }
 
-        LP.setPosition(LPPosition);
-        RP.setPosition(RPPosition);
-        CA.setPosition(CAPosition);
+
 
       /*  if (gamepad2.x = true){
             BTNPosition += BTNDelta;
