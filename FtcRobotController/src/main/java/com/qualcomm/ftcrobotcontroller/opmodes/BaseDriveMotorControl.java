@@ -138,7 +138,7 @@ public class BaseDriveMotorControl{
      * the robot more precisely at slower speeds.
      */
     private double scaleInput(double dVal, boolean boost)  {
-        int mult = 6;
+        int mult = 8;
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
         if(boost){

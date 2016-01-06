@@ -59,6 +59,8 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("NullOp", NullOp.class);
     manager.register("MainAutoOp", AutoOp.class);
     manager.register("MainTeleOp", TreelWedBotTeleOpMain.class);
+    manager.register("ServoOp", ServoOp2.class);
+    manager.register("SquareOp", SquareOp.class);
     
 
     /*
