@@ -11,13 +11,15 @@ public class TreelWedBotTeleOpMain extends OpMode {
     DcMotor FRM, BRM; //Front Right Motor, Back Right Motor
     DcMotor FLM, BLM; //Front Left Motor, Back Left Motor
     DcMotor TDM, TIM; //Tread Delivery Motor, Tread Intake Motor
-    Servo RP, LP, CA; //BTN;  Right Paddle, Left paddle, Climber Arm, Button pusher.
+    Servo RP, LP, CA, SA; //BTN;  Right Paddle, Left paddle, Climber Arm, Button pusher.
+    boolean RPaddleIsOpen=false;
+    boolean LPaddleIsOpen=false;
+    boolean ArmIsUp=false;
+    boolean ArmIsOut = false;
 
     // position of the DropMen servo.
-    double RPClosedPosition = 0.0, LPClosedPosition = 0.0, CAClosedPosition = 0.0;// BTNPosition = 0.0;
-    double RPOpenPosition = 0.5, LPOpenPosition = 0.5, CAOpenPosition = 1.0;
-    // amount to change the DropMen servo position.
-   // double RPDelta = 0.1, LPDelta = 0.1, CADelta = 0.1, BTNDelta = 0.1;
+    final double RPClosedPosition = 0.05, LPClosedPosition = .80, CAClosedPosition = 1.0, SAClosedPosition = .5;// BTNPosition = 0.0;
+    final double RPOpenPosition = 0.55, LPOpenPosition = .40, CAOpenPosition = 0.0, SAOpenPosition = 1.0;
 
 
     BaseDriveMotorControl driveScheme;
@@ -45,6 +47,7 @@ public class TreelWedBotTeleOpMain extends OpMode {
         RP = hardwareMap.servo.get("rp"); //port 3
         LP = hardwareMap.servo.get("lp"); //port 1
         CA = hardwareMap.servo.get("ca"); //port 2
+        SA = hardwareMap.servo.get("sa"); //port 4
        // BTN = hardwareMap.servo.get("btn");
         
         //init driveScheme
@@ -53,7 +56,6 @@ public class TreelWedBotTeleOpMain extends OpMode {
         TDM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         TIM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
-        RP.setDirection(Servo.Direction.REVERSE);
     }
 
     @Override
@@ -80,35 +82,63 @@ public class TreelWedBotTeleOpMain extends OpMode {
             TDM.setPower(0);
         }
 
-        // update the position of the DropMen.
         if (gamepad2.a) {
+            if(!RPaddleIsOpen) {
+                RPaddleIsOpen = true;
+                RP.setPosition(RPOpenPosition);
+            }
 
-            RP.setPosition(RPOpenPosition);
-            LP.setPosition(LPOpenPosition);
         }else{
-            RP.setPosition(RPClosedPosition);
-            LP.setPosition(LPClosedPosition);
+            if(RPaddleIsOpen) {
+                RPaddleIsOpen = false;
+                RP.setPosition(RPClosedPosition);
+            }
+
+        }
+        if (gamepad2.y) {
+            if(!LPaddleIsOpen) {
+                LPaddleIsOpen = true;
+                LP.setPosition(LPOpenPosition);
+            }
+
+        }else{
+            if(LPaddleIsOpen) {
+                LPaddleIsOpen = false;
+                LP.setPosition(LPClosedPosition);
+            }
+
         }
 
 
         if (gamepad2.b) {
-
-            CA.setPosition(CAOpenPosition);
+            if(!ArmIsUp) {
+                ArmIsUp = true;
+                CA.setPosition(CAOpenPosition);            }
         }
         else{
-            CA.setPosition(CAClosedPosition);
+            if(ArmIsUp) {
+                ArmIsUp = false;
+                CA.setPosition(CAClosedPosition);
+            }
         }
 
 
 
-      /*  if (gamepad2.x = true){
-            BTNPosition += BTNDelta;
-        }
 
-        if (gamepad2.x = false){
-            BTNPosition -= BTNDelta;
-        }
-        */
+      if (gamepad2.x){
+          if(!ArmIsOut) {
+              ArmIsOut = true;
+              SA.setPosition(SAOpenPosition);
+          }
+        }else{
+          if(ArmIsOut){
+              ArmIsOut = false;
+              SA.setPosition(SAClosedPosition);
+          }
+
+      }
+
+
     }
 
     @Override

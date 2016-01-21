@@ -5,6 +5,8 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * AutoOpMode
@@ -15,47 +17,52 @@ public class AutoOp extends LinearOpMode {
     
     DcMotor FRM, BRM;
     DcMotor FLM, BLM;
-    ColorSensor colorSensor;
     BaseDriveMotorControl driveScheme;
+    Servo  CA; //BTN;  Right Paddle, Left paddle, Climber Arm, Button pusher.
 
     public AutoOp() {/*who needs constructors?*/}
     
     @Override
     public void runOpMode() throws InterruptedException{
-        /**
-        * Hardware Map:
-        * fr - front right drive motor
-        * fl - front left drive motor
-        * br - back right drive motor
-        * bl - back left drive motor
-        */
+
+
+
         FRM = hardwareMap.dcMotor.get("fr");
         BRM = hardwareMap.dcMotor.get("br");
         FLM = hardwareMap.dcMotor.get("fl");
         BLM = hardwareMap.dcMotor.get("bl");
-        colorSensor = hardwareMap.colorSensor.get("clr");
-        
+
+
+        CA = hardwareMap.servo.get("ca"); //port 4
+        // BTN = hardwareMap.servo.get("btn");
+
         //init driveScheme
         driveScheme = new BaseDriveMotorControl(FRM, BRM, FLM, BLM);
         
         
         //////////////// END INIT STEP /////////////////
-        
         waitForStart();
-        
-        
-        //telemetry.addData("Red  ", colorSensor.red());
-        //telemetry.addData("Green", colorSensor.green());
-        //telemetry.addData("Blue ", colorSensor.blue());
-        
-        for(int i = 0; i < 4; i++){
-            driveScheme.tankDrive(1, 1);
-            sleep(1000);
-            driveScheme.tankDrive(1, -1);
-            sleep(1000);
+
+
+        driveScheme.measuredDrive(110, 110);
+       /*
+        while(FRM.getTargetPosition()>FRM.getCurrentPosition()){
+            sleep(001);
         }
-        
-        driveScheme.tankDrive(0, 0);
+        driveScheme.measuredDrive(6.67588, -6.67588);
+        while(FRM.getTargetPosition()>FRM.getCurrentPosition()){
+            sleep(001);
+        }
+        driveScheme.measuredDrive(12.5, 12.5);
+        while(FRM.getTargetPosition()>FRM.getCurrentPosition()){
+            sleep(001);
+        }
+       // CA.setPosition(1.0);
+        while (FRM.getTargetPosition()>FRM.getCurrentPosition()){
+            sleep(001);
+        }
+        //CA.setPosition(0);
+        */
         
     }
     

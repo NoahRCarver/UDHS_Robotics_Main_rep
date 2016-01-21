@@ -2,6 +2,7 @@
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -14,15 +15,15 @@ import com.qualcomm.robotcore.util.Range;
  * Enables control of the robot via the gamepad
  */
 public class BaseDriveMotorControl{
-
+//wheel
     DcMotor rightMotorf, rightMotorb;
     DcMotor leftMotorf, leftMotorb;
     boolean encodersEnabled = false;
     private final double frontRatio = 1.00;
-    private final double frontCirc = 0;
-    private final double backCirc = 0;
+    private final double frontCirc = 16;
+    private final double backCirc = 16;
     private final int pulsePerRot = 1440;
-
+//arc length: 6.67588
     /**
      * Constructor:
      * @params: FrontRight, backRight, frontLeft, backLeft: motors, must be initialized and bound
@@ -70,6 +71,7 @@ public class BaseDriveMotorControl{
      * If you understand java and can't use this, you don't deserve to!
      */
     public void measuredDrive(double Rdist, double Ldist){
+
         
         double frrot = Rdist/frontCirc;
         double brrot = Rdist/backCirc;
@@ -101,6 +103,7 @@ public class BaseDriveMotorControl{
         leftMotorb.setPower(lPow);
         rightMotorf.setPower(frontRatio * rPow);
         rightMotorb.setPower(rPow);
+
     }
     
     
