@@ -59,6 +59,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("MainAutoOp", AutoOp.class);
     manager.register("MainTeleOp", TreelWedBotTeleOpMain.class);
     manager.register("ScienceOlympiadAutoOp", ScienceOlympiadAuto.class);
+    manager.register("ScienceOlympiadTeleOp", ScienceOlympiadTeleOp.class);
     
 
     /*
