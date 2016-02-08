@@ -3,8 +3,8 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorController;
+//import com.qualcomm.robotcore.hardware.Servo;
+//import com.qualcomm.robotcore.hardware.DcMotorController;
 
 public class ScienceOlympiadTeleOp extends OpMode {
 
@@ -22,7 +22,7 @@ public class ScienceOlympiadTeleOp extends OpMode {
    // final double RPOpenPosition = 0.55, LPOpenPosition = .40, CAOpenPosition = 0.0, SAOpenPosition = 1.0;
 
 
-    BaseDriveMotorControl driveScheme;
+    BaseDriveMotorControl2 driveScheme;
 
     public ScienceOlympiadTeleOp() {}
 
@@ -51,7 +51,7 @@ public class ScienceOlympiadTeleOp extends OpMode {
         // BTN = hardwareMap.servo.get("btn");
 
         //init driveScheme
-        driveScheme = new BaseDriveMotorControl(left, left, right, right);
+        driveScheme = new BaseDriveMotorControl2(left, right);
 
    //     TDM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
      //   TIM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
@@ -66,7 +66,7 @@ public class ScienceOlympiadTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        driveScheme.tankDrive(gamepad2);
+        driveScheme.tankDrive(gamepad1);
 
 
      /*   if(gamepad2.dpad_up){

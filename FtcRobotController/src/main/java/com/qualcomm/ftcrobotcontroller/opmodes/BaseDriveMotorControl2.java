@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 /**
  * TeleOp Mode
- * <p>
+ * <p>  aaaaaaaaaaaaaaaaaaaaaaaaaaaa
  * Enables control of the robot via the gamepad
  */
 public class BaseDriveMotorControl2 {
@@ -29,30 +29,27 @@ public class BaseDriveMotorControl2 {
      * @params: FrontRight, backRight, frontLeft, backLeft: motors, must be initialized and bound
      * before this can be constructed
      */
-    public BaseDriveMotorControl2(DcMotor left, DcMotor right) {
+    public BaseDriveMotorControl2(DcMotor ileft, DcMotor iright) {
+        left = ileft;
+        right = iright;
 
-        left = left;
-        right = right;
-
-        left.setDirection(DcMotor.Direction.REVERSE);
         right.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
-    /**
-     * if val is true, enables encoders, else disables them
+/** if val is true, enables encoders, else disables them
      */
     public void enableEncoders(boolean val) {
         if (val) {
-            right.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            right.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
             //leftMotorb.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            left.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            left.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
            // rightMotorb.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
             encodersEnabled = true;
         } else {
-            right.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+            right.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
            // leftMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-            left.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+            left.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
             //rightMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
             encodersEnabled = false;
         }

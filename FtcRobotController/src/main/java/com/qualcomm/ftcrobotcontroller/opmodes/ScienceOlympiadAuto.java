@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class ScienceOlympiadAuto extends LinearOpMode {
     DcMotor left, right;
-    BaseDriveMotorControl2 driverino;
+    BaseDriveMotorControl driverino;
 
     public ScienceOlympiadAuto(){}
 
@@ -14,7 +14,7 @@ public class ScienceOlympiadAuto extends LinearOpMode {
         left = hardwareMap.dcMotor.get("left"); //port 1
         right = hardwareMap.dcMotor.get("right"); //port 2
 
-        driverino = new BaseDriveMotorControl2(left, right);
+        driverino = new BaseDriveMotorControl(left, right);
 
         waitForStart();
 

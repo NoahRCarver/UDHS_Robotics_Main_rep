@@ -21,23 +21,19 @@ public class BaseDriveMotorControl{
     boolean encodersEnabled = false;
     private final double frontRatio = 1.00;
     private final double frontCirc = 16;
-    private final double backCirc = 16;
     private final int pulsePerRot = 1440;
 //arc length: 6.67588
     /**
      * Constructor:
-     * @params: FrontRight, backRight, frontLeft, backLeft: motors, must be initialized and bound
+     * @params: FrontRight, frontLeft: motors, must be initialized and bound
      * before this can be constructed
      */
-    public BaseDriveMotorControl(DcMotor frontRight, DcMotor backRight, DcMotor frontLeft, DcMotor backLeft) {
+    public BaseDriveMotorControl(DcMotor frontRight, DcMotor frontLeft) {
         
         rightMotorf = frontRight;
-        rightMotorb = backRight;
         leftMotorf = frontLeft;
-        leftMotorb = backLeft;
         
         rightMotorf.setDirection(DcMotor.Direction.REVERSE);
-        rightMotorb.setDirection(DcMotor.Direction.REVERSE);
        
     }
     
@@ -48,15 +44,12 @@ public class BaseDriveMotorControl{
     public void enableEncoders(boolean val){
         if(val){
             leftMotorf.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            leftMotorb.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
             rightMotorf.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            rightMotorb.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
             encodersEnabled = true;
         }else{
            leftMotorf.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-           leftMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
            rightMotorf.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-           rightMotorb.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+
            encodersEnabled = false;
         }
     }
@@ -74,15 +67,11 @@ public class BaseDriveMotorControl{
 
         
         double frrot = Rdist/frontCirc;
-        double brrot = Rdist/backCirc;
         double flrot = Ldist/frontCirc;
-        double blrot = Ldist/backCirc;
         double rPow = .5, lPow = .5;
         
         leftMotorf.setTargetPosition((int)flrot*pulsePerRot);
-        leftMotorb.setTargetPosition((int)blrot*pulsePerRot);
         rightMotorf.setTargetPosition((int)frrot*pulsePerRot);
-        rightMotorb.setTargetPosition((int)brrot*pulsePerRot);
         
         if(!encodersEnabled){
          enableEncoders(true);   
@@ -100,9 +89,7 @@ public class BaseDriveMotorControl{
         }
         
         leftMotorf.setPower(frontRatio * lPow);
-        leftMotorb.setPower(lPow);
         rightMotorf.setPower(frontRatio * rPow);
-        rightMotorb.setPower(rPow);
 
     }
     
@@ -119,9 +106,8 @@ public class BaseDriveMotorControl{
         }
         
         leftMotorf.setPower(frontRatio * leftVal);
-        leftMotorb.setPower(leftVal);
         rightMotorf.setPower(frontRatio * rightVal);
-        rightMotorb.setPower(rightVal);
+
     }
     
     /**
@@ -132,7 +118,7 @@ public class BaseDriveMotorControl{
      */
     public void tankDrive (Gamepad gamepad){
         boolean boost = gamepad.left_bumper;
-        tankDrive (scaleInput(gamepad.left_stick_y, boost), scaleInput(gamepad.right_stick_y, boost));
+        tankDrive ((scaleInput (gamepad.left_stick_y, boost)), (scaleInput (gamepad.right_stick_y, boost)));
     }
 
     /*
@@ -140,7 +126,7 @@ public class BaseDriveMotorControl{
      * scaled value is less than linear.  This is to make it easier to drive
      * the robot more precisely at slower speeds.
      */
-    private double scaleInput(double dVal, boolean boost)  {
+    private double scaleInput(double dVal , boolean boost)  {
         int mult = 8;
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };

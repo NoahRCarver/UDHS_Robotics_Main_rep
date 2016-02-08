@@ -36,13 +36,13 @@ public class TreelWedBotTeleOpMain extends OpMode {
          * br - back right drive motor
          * bl - back left drive motor
          */
-        FRM = hardwareMap.dcMotor.get("fr");
-        BRM = hardwareMap.dcMotor.get("br");
-        FLM = hardwareMap.dcMotor.get("fl");
-        BLM = hardwareMap.dcMotor.get("bl");
+        RTM = hardwareMap.dcMotor.get("RTM");
+      //  BRM = hardwareMap.dcMotor.get("br");
+        FLM = hardwareMap.dcMotor.get("LTM");
+        //BLM = hardwareMap.dcMotor.get("bl");
 
-        TDM = hardwareMap.dcMotor.get("out");
-        TIM = hardwareMap.dcMotor.get("in");
+        TDM = hardwareMap.dcMotor.get("BOM");
+        TIM = hardwareMap.dcMotor.get("BIM");
 
         RP = hardwareMap.servo.get("rp"); //port 3
         LP = hardwareMap.servo.get("lp"); //port 1
@@ -51,10 +51,10 @@ public class TreelWedBotTeleOpMain extends OpMode {
        // BTN = hardwareMap.servo.get("btn");
         
         //init driveScheme
-        driveScheme = new BaseDriveMotorControl(FRM, BRM, FLM, BLM);
+        driveScheme = new BaseDriveMotorControl(FRM, FLM);
         
-        TDM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        TIM.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        TDM.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        TIM.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
     }
 

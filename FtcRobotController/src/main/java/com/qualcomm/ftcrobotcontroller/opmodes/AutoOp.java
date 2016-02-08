@@ -37,7 +37,7 @@ public class AutoOp extends LinearOpMode {
         // BTN = hardwareMap.servo.get("btn");
 
         //init driveScheme
-        driveScheme = new BaseDriveMotorControl(FRM, BRM, FLM, BLM);
+        driveScheme = new BaseDriveMotorControl(FRM, FLM);
         
         
         //////////////// END INIT STEP /////////////////
