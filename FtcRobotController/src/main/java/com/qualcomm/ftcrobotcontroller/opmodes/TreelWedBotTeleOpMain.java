@@ -8,14 +8,14 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 
 public class TreelWedBotTeleOpMain extends OpMode {
 
-    DcMotor FRM, BRM; //Front Right Motor, Back Right Motor
-    DcMotor FLM, BLM; //Front Left Motor, Back Left Motor
-    DcMotor TDM, TIM; //Tread Delivery Motor, Tread Intake Motor
-    Servo RP, LP, CA, SA; //BTN;  Right Paddle, Left paddle, Climber Arm, Button pusher.
+    DcMotor RTM; //Front Right Motor, Back Right Motor
+    DcMotor LTM; //Front Left Motor, Back Left Motor
+    DcMotor BOM, BIM; //Tread Delivery Motor, Tread Intake Motor
+    Servo RP, LP, DM; //BTN;  Right Paddle, Left paddle, Climber Arm
     boolean RPaddleIsOpen=false;
     boolean LPaddleIsOpen=false;
     boolean ArmIsUp=false;
-    boolean ArmIsOut = false;
+
 
     // position of the DropMen servo.
     final double RPClosedPosition = 0.05, LPClosedPosition = .80, CAClosedPosition = 1.0, SAClosedPosition = .5;// BTNPosition = 0.0;
@@ -38,23 +38,21 @@ public class TreelWedBotTeleOpMain extends OpMode {
          */
         RTM = hardwareMap.dcMotor.get("RTM");
       //  BRM = hardwareMap.dcMotor.get("br");
-        FLM = hardwareMap.dcMotor.get("LTM");
+        LTM = hardwareMap.dcMotor.get("LTM");
         //BLM = hardwareMap.dcMotor.get("bl");
 
-        TDM = hardwareMap.dcMotor.get("BOM");
-        TIM = hardwareMap.dcMotor.get("BIM");
+        BOM = hardwareMap.dcMotor.get("BOM");
+        BIM = hardwareMap.dcMotor.get("BIM");
 
-        RP = hardwareMap.servo.get("rp"); //port 3
-        LP = hardwareMap.servo.get("lp"); //port 1
-        CA = hardwareMap.servo.get("ca"); //port 2
-        SA = hardwareMap.servo.get("sa"); //port 4
-       // BTN = hardwareMap.servo.get("btn");
+        RP = hardwareMap.servo.get("rp"); //port 1
+        LP = hardwareMap.servo.get("lp"); //port 2
+        DM = hardwareMap.servo.get("DM"); //port 3
         
         //init driveScheme
-        driveScheme = new BaseDriveMotorControl(FRM, FLM);
+        driveScheme = new BaseDriveMotorControl(RTM, LTM);
         
-        TDM.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        TIM.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        BOM.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        BIM.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
     }
 
@@ -69,17 +67,17 @@ public class TreelWedBotTeleOpMain extends OpMode {
         driveScheme.tankDrive(gamepad1);
 
         if(gamepad2.dpad_up){
-            TIM.setPower(1);
+            BIM.setPower(1);
         }else{
-            TIM.setPower(0);
+            BIM.setPower(0);
         }
 
         if(gamepad2.dpad_left){
-            TDM.setPower(.25);
+            BOM.setPower(.25);
         }else if(gamepad2.dpad_right){
-            TDM.setPower(-.25);
+            BOM.setPower(-.25);
         }else{
-            TDM.setPower(0);
+            BOM.setPower(0);
         }
 
         if (gamepad2.a) {
@@ -113,32 +111,14 @@ public class TreelWedBotTeleOpMain extends OpMode {
         if (gamepad2.b) {
             if(!ArmIsUp) {
                 ArmIsUp = true;
-                CA.setPosition(CAOpenPosition);            }
+                DM.setPosition(CAOpenPosition);            }
         }
         else{
             if(ArmIsUp) {
                 ArmIsUp = false;
-                CA.setPosition(CAClosedPosition);
+                DM.setPosition(CAClosedPosition);
             }
         }
-
-
-
-
-      if (gamepad2.x){
-          if(!ArmIsOut) {
-              ArmIsOut = true;
-              SA.setPosition(SAOpenPosition);
-          }
-        }else{
-          if(ArmIsOut){
-              ArmIsOut = false;
-              SA.setPosition(SAClosedPosition);
-          }
-
-      }
-
-
     }
 
     @Override

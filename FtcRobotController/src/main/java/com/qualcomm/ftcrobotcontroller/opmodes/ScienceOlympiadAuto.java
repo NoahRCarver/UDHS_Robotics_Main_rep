@@ -18,7 +18,7 @@ public class ScienceOlympiadAuto extends LinearOpMode {
 
         waitForStart();
 
-        driverino.measuredDrive(5, 5);//should go 2 meters
+        driverino.measuredDrive(1, 1);
     }
 
 }
