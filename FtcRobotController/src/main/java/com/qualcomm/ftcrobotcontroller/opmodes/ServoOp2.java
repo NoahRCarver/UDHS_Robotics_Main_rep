@@ -7,43 +7,11 @@ import com.qualcomm.robotcore.util.Range;
 
 public class ServoOp2 extends OpMode {
 
-    Servo ButtonPush;
-    Servo DropMen;
-    DcMotor rightMotor1, rightMotor2;
-    DcMotor leftMotor1, leftMotor2;
-    DcMotorController.DeviceMode devMode;
-    DcMotorController leftController, rightController;
-    int numOpLoops = 1;
+   Servo testee;
+ boolean RPaddleIsOpen = false;
+    double testOpenPosition = .5;
+    double testClosedPosition = 0;
 
-    /*
-     * Note: the configuration of the servos is such that
-     * as the DropMen servo approaches 0, the DropMen position moves up (away from the floor).
-     * Also, as the ButtonPush servo approaches 0, the ButtonPush turns around (parallel to the floor).
-     */
-    // TETRIX VALUES.
-    final static double DropMen_MIN_RANGE  = -1.0;
-    final static double DropMen_MAX_RANGE  = 1.0;
-    final static double ButtonPush_MIN_RANGE  = -1.0;
-    final static double ButtonPush_MAX_RANGE  = 1.0;
-
-    // position of the DropMen servo.
-    double DropMenPosition;
-
-    // amount to change the DropMen servo position.
-    double DropMenDelta = 0.1;
-
-    // position of the ButtonPush servo
-    double ButtonPushPosition;
-
-    // amount to change the ButtonPush servo position by
-    double ButtonPushDelta = 0.1;
-
-
-
-
-    /**
-     * Constructor
-     */
     public ServoOp2() {
 
     }
@@ -57,48 +25,17 @@ public class ServoOp2 extends OpMode {
     public void init() {
 
 
-		/*
-		 * Use the hardwareMap to get the dc motors and servos by name. Note
-		 * that the names of the devices must match the names used when you
-		 * configured your robot and created the configuration file.
-		 */
 
-		/*
-		 * For the demo Tetrix K9 bot we assume the following,
-		 *   There are two motors "motor_1" and "motor_2"
-		 *   "motor_1" is on the right side of the bot.
-		 *   "motor_2" is on the left side of the bot and reversed.
-		 *
-		 * We also assume that there are two servos "servo_1" and "servo_6"
-		 *    "servo_1" controls the DropMen joint of the manipulator.
-		 *    "servo_6" controls the ButtonPush joint of the manipulator.
-		 */
 
-        leftMotor1 = hardwareMap.dcMotor.get("leftMotor1");
-        leftMotor2 = hardwareMap.dcMotor.get("leftMotor2");
-        rightMotor1 = hardwareMap.dcMotor.get("rightMotor1");
-        rightMotor2 = hardwareMap.dcMotor.get("rightMotor2");
+        testee = hardwareMap.servo.get("test");
 
-        rightController = hardwareMap.dcMotorController.get("rightController");
-        leftController = hardwareMap.dcMotorController.get("leftController");
-
-        DropMen = hardwareMap.servo.get("servo_1");
-        ButtonPush = hardwareMap.servo.get("servo_6");
-
-        // assign the starting position of the DropMen and ButtonPush
-        DropMenPosition = 1.0;
-        ButtonPushPosition = 1.0;
+        testee.setPosition(0);
     }
 
     @Override
     public void init_loop() {
 
-        devMode = DcMotorController.DeviceMode.WRITE_ONLY;
 
-        leftMotor1.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        leftMotor2.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        rightMotor1.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        rightMotor2.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
     }
 
@@ -109,56 +46,19 @@ public class ServoOp2 extends OpMode {
      */
     @Override
     public void loop() {
+        if (gamepad2.a) {
+            if(!RPaddleIsOpen) {
+                RPaddleIsOpen = true;
+                testee.setPosition(testOpenPosition);
+            }
 
-		/*
-		 * Gamepad 1
-		 *
-		 * Gamepad 1 controls the motors via the left stick, and it controls the
-		 * DropMen/ButtonPush via the a,b, x, y buttons
-		 */
+        }else{
+            if(RPaddleIsOpen) {
+                RPaddleIsOpen = false;
+                testee.setPosition(testClosedPosition);
+            }
 
-
-
-        // update the position of the DropMen.
-        if (gamepad1.left_trigger != 0) {
-            // if the left trigger is pushed on gamepad1, increment the position of
-            // the DropMen servo.
-            DropMenPosition += DropMenDelta;
         }
-
-        if (gamepad1.left_bumper){
-            DropMenPosition -= DropMenDelta;
-        }
-
-        if (gamepad1.right_trigger != 0) {
-            // if the right trigger is pushed on gamepad1, increment the position of
-            // the DropMen servo.
-            ButtonPushPosition += ButtonPushDelta;
-        }
-
-        if (gamepad1.right_bumper){
-            ButtonPushPosition -= ButtonPushDelta;
-        }
-
-        float left = -gamepad1.left_stick_y;
-        float right = -gamepad1.right_stick_y;
-
-        left = Range.clip(left, -1, 1);
-        right = Range.clip(right, -1, 1);
-
-        rightMotor1.setPower(right);
-        rightMotor2.setPower(right);
-        leftMotor1.setPower(left);
-        leftMotor2.setPower(left);
-
-
-        // clip the position values so that they never exceed their allowed range.
-        DropMenPosition = Range.clip(DropMenPosition, DropMen_MIN_RANGE, DropMen_MAX_RANGE);
-        ButtonPushPosition = Range.clip(ButtonPushPosition, ButtonPush_MIN_RANGE, ButtonPush_MAX_RANGE);
-
-        // write position values to the DropMen and ButtonPush servo
-        DropMen.setPosition(1);
-        ButtonPush.setPosition(1);
 
 
 

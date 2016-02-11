@@ -121,11 +121,10 @@ public class BaseDriveMotorControl2 {
      * This method automatically collects data from the Gamepad and
      * scales it for tank drive
      * To use, just put drivecontroller.tankDrive(gamepad1); into the
-     * loop function of your tele-op
+     * loop function of your tele-opj
      */
     public void tankDrive(Gamepad gamepad) {
-        boolean boost = gamepad.left_bumper;
-        tankDrive(scaleInput(gamepad.left_stick_y, boost), scaleInput(gamepad.right_stick_y, boost));
+        tankDrive(scaleInput(gamepad.left_stick_y), scaleInput(gamepad.right_stick_y));
     }
 
     /*
@@ -133,13 +132,10 @@ public class BaseDriveMotorControl2 {
      * scaled value is less than linear.  This is to make it easier to drive
      * the robot more precisely at slower speeds.
      */
-    private double scaleInput(double dVal, boolean boost) {
-        int mult = 8;
+    private double scaleInput(double dVal) {
+        int mult = 16;
         double[] scaleArray = {0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00};
-        if (boost) {
-            mult = 16;
-        }
 
 
         // get the corresponding index for the scaleInput array.

@@ -11,15 +11,16 @@ public class TreelWedBotTeleOpMain extends OpMode {
     DcMotor RTM; //Front Right Motor, Back Right Motor
     DcMotor LTM; //Front Left Motor, Back Left Motor
     DcMotor BOM, BIM; //Tread Delivery Motor, Tread Intake Motor
-    Servo RP, LP, DM; //BTN;  Right Paddle, Left paddle, Climber Arm
+    Servo RP, LP, DM, DH; //BTN;  Right Paddle, Left paddle, Climber Arm
     boolean RPaddleIsOpen=false;
     boolean LPaddleIsOpen=false;
+    boolean DebrisHatchIsOpen = false;
     boolean ArmIsUp=false;
 
 
     // position of the DropMen servo.
-    final double RPClosedPosition = 0.05, LPClosedPosition = .80, CAClosedPosition = 1.0, SAClosedPosition = .5;// BTNPosition = 0.0;
-    final double RPOpenPosition = 0.55, LPOpenPosition = .40, CAOpenPosition = 0.0, SAOpenPosition = 1.0;
+    final double RPClosedPosition = 0.00, LPClosedPosition = .40, CAClosedPosition = 0.0, DHClosedPosition = .5;
+    final double RPOpenPosition = 0.40, LPOpenPosition = .00, CAOpenPosition = 1.0, DHOpenPosition = 0;
 
 
     BaseDriveMotorControl driveScheme;
@@ -44,9 +45,10 @@ public class TreelWedBotTeleOpMain extends OpMode {
         BOM = hardwareMap.dcMotor.get("BOM");
         BIM = hardwareMap.dcMotor.get("BIM");
 
-        RP = hardwareMap.servo.get("rp"); //port 1
-        LP = hardwareMap.servo.get("lp"); //port 2
+        RP = hardwareMap.servo.get("RP"); //port 1
+        LP = hardwareMap.servo.get("LP"); //port 2
         DM = hardwareMap.servo.get("DM"); //port 3
+        DH = hardwareMap.servo.get("DH");
         
         //init driveScheme
         driveScheme = new BaseDriveMotorControl(RTM, LTM);
@@ -67,9 +69,23 @@ public class TreelWedBotTeleOpMain extends OpMode {
         driveScheme.tankDrive(gamepad1);
 
         if(gamepad2.dpad_up){
-            BIM.setPower(1);
+            BIM.setPower(.75);
         }else{
             BIM.setPower(0);
+        }
+
+        if (gamepad2.x) {
+            if(!DebrisHatchIsOpen) {
+                DebrisHatchIsOpen = true;
+                DH.setPosition(DHOpenPosition);
+            }
+
+        }else{
+            if(DebrisHatchIsOpen) {
+                DebrisHatchIsOpen = false;
+                DH.setPosition(DHClosedPosition);
+            }
+
         }
 
         if(gamepad2.dpad_left){
