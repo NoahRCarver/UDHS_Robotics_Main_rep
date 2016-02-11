@@ -33,7 +33,7 @@ public class BaseDriveMotorControl2 {
         left = ileft;
         right = iright;
 
-        right.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.REVERSE);
 
     }
 

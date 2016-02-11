@@ -33,7 +33,7 @@ public class BaseDriveMotorControl{
         rightMotorf = frontRight;
         leftMotorf = frontLeft;
         
-        rightMotorf.setDirection(DcMotor.Direction.REVERSE);
+        leftMotorf.setDirection(DcMotor.Direction.REVERSE);
        
     }
     
@@ -116,9 +116,9 @@ public class BaseDriveMotorControl{
      * To use, just put drivecontroller.tankDrive(gamepad1); into the 
      * loop function of your tele-op
      */
-    public void tankDrive (Gamepad gamepad){
+    public void tankDrive (Gamepad gamepad) {
         boolean boost = gamepad.left_bumper;
-        tankDrive ((scaleInput (gamepad.left_stick_y, boost)), (scaleInput (gamepad.right_stick_y, boost)));
+        tankDrive((scaleInput(gamepad.left_stick_y, true)), (scaleInput(gamepad.right_stick_y, true)));
     }
 
     /*
