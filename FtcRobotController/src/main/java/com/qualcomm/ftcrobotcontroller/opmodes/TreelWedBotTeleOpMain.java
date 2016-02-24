@@ -19,8 +19,8 @@ public class TreelWedBotTeleOpMain extends OpMode {
 
 
     // position of the DropMen servo.
-    final double RPClosedPosition = 0.00, LPClosedPosition = .40, CAClosedPosition = 0.0, DHClosedPosition = .5;
-    final double RPOpenPosition = 0.40, LPOpenPosition = .00, CAOpenPosition = 1.0, DHOpenPosition = 0;
+    final double RPClosedPosition = 0.00, LPClosedPosition = .50, CAClosedPosition = 0.0, DHClosedPosition = .8;
+    final double RPOpenPosition = 0.60, LPOpenPosition = 0.00, CAOpenPosition = 1.0, DHOpenPosition = 0;
 
 
     BaseDriveMotorControl driveScheme;
@@ -70,7 +70,11 @@ public class TreelWedBotTeleOpMain extends OpMode {
 
         if(gamepad2.dpad_up){
             BIM.setPower(.75);
-        }else{
+        }
+        else if (gamepad2.dpad_down){
+            BIM.setPower(-.75);
+        }
+        else{
             BIM.setPower(0);
         }
 
